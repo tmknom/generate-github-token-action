@@ -6,25 +6,32 @@ Generate an installation access token using GitHub Apps for GitHub Actions.
 
 ## Description
 
-Template repository for creating Composite Action with GitHub Actions.
+Generate an installation access token using GitHub Apps for GitHub Actions.
 
 ## Usage
 
-Write usage for your Composite Action.
-
 ```yaml
   steps:
-    - name: Template
-      uses: tmknom/template-composite-action@v0
+    - name: Generate GitHub Token
+      uses: tmknom/generate-github-token-action@v0
+      with:
+        app-id: <your-github-app-id>
+        app-private-key: <your-github-app-private-key>
 ```
 
 ## Inputs
 
-N/A
+| Name | Description | Default | Required |
+| :--- | :---------- | :------ | :------: |
+| app-id | GitHub App ID. | n/a | yes |
+| app-private-key | GitHub App private key. | n/a | yes |
+| repositories | List of repositories to install the GitHub App on. | n/a | no |
 
 ## Outputs
 
-N/A
+| Name | Description |
+| :--- | :---------- |
+| token | GitHub installation access token |
 
 <!-- actdocs end -->
 
