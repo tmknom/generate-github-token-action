@@ -1,23 +1,82 @@
-name: Rename me
+name: Generate GitHub Token
 description: |
-  Template repository for creating Composite Action with GitHub Actions.
+  Generate an installation access token using GitHub Apps for GitHub Actions.
 
   ## Usage
 
-  Write usage for your Composite Action.
-
   ```yaml
     steps:
-      - name: Template
-        uses: tmknom/template-composite-action@v0
+      - name: Generate GitHub Token
+        uses: tmknom/generate-github-token-action@v0
+        with:
+          app-id: <your-github-app-id>
+          app-private-key: <your-github-app-private-key>
   ```
+
+inputs:
+  app-id:
+    required: true
+    description: GitHub App ID.
+  app-private-key:
+    required: true
+    description: GitHub App private key.
+  repositories:
+    required: false
+    description: List of repositories to install the GitHub App on.
+
+outputs:
+  token:
+    value: ${{ steps.generate.outputs.token }}
+    description: GitHub installation access token
 
 runs:
   using: composite
 
   steps:
-    - name: Run
-      shell: bash
+    - name: Generate installation access token
+      id: generate
+      env:
+        APP_ID: ${{ inputs.app-id }}
+        APP_PRIVATE_KEY: ${{ inputs.app-private-key }}
+        REPOSITORIES: ${{inputs.repositories }}
       run: |
-        set -x
-        echo "Write steps"
+        base64url() {
+          openssl enc -base64 -A | tr '+/' '-_' | tr -d '='
+        }
+
+        sign() {
+          openssl dgst -binary -sha256 -sign <(printf '%s' "${APP_PRIVATE_KEY}")
+        }
+
+        header="$(printf '{"alg":"RS256","typ":"JWT"}' | base64url)"
+        now="$(date '+%s')"
+        iat="$((now - 60))"
+        exp="$((now + (3 * 60)))"
+        template='{"iss":"%s","iat":%s,"exp":%s}'
+        payload="$(printf "${template}" "${APP_ID}" "${iat}" "${exp}" | base64url)"
+        echo "::add-mask::${payload}"
+        signature="$(printf '%s' "${header}.${payload}" | sign | base64url)"
+        echo "::add-mask::${signature}"
+        jwt="${header}.${payload}.${signature}"
+        echo "::add-mask::${jwt}"
+
+        repo="${GITHUB_REPOSITORY_OWNER}/${REPOSITORIES}"
+        installation_id="$(curl --location --silent --request GET \
+          --url "${GITHUB_API_URL}/repos/${repo}/installation" \
+          --header "Accept: application/vnd.github+json" \
+          --header "X-GitHub-Api-Version: 2022-11-28" \
+          --header "Authorization: Bearer ${jwt}" \
+          | jq -r '.id'
+        )"
+
+        token="$(curl --location --silent --request POST \
+          --url "${GITHUB_API_URL}/app/installations/${installation_id}/access_tokens" \
+          --header "Accept: application/vnd.github+json" \
+          --header "X-GitHub-Api-Version: 2022-11-28" \
+          --header "Authorization: Bearer ${jwt}" \
+          --data "$(printf '{"repositories":["%s"]}' "${REPOSITORIES}")" \
+          | jq -r '.token'
+        )"
+        echo "::add-mask::${token}"
+        echo "token=${token}" >>"${GITHUB_OUTPUT}"
+      shell: bash
