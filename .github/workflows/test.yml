@@ -45,3 +45,44 @@ jobs:
             "/repos/${GITHUB_REPOSITORY_OWNER}/${REPOSITORY}/readme" \
             --jq '.name')"
           test "${result}" = "README.md"
+
+  test-key-file:
+    name: Test for app-private-key-file
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: tmknom/checkout-action@v1
+
+      - name: Setup
+        id: setup
+        env:
+          APP_PRIVATE_KEY: ${{ secrets.PR_WRITER_APP_PRIVATE_KEY }}
+        run: |
+          set -x
+          key_file="${RUNNER_TEMP}/app_private.key"
+          printenv APP_PRIVATE_KEY > "${key_file}"
+          echo "file=${key_file}" >> "${GITHUB_OUTPUT}"
+
+      - name: Exercise
+        id: exercise
+        uses: ./
+        with:
+          app-id: ${{ secrets.PR_WRITER_APP_ID }}
+          app-private-key-file: ${{ steps.setup.outputs.file }}
+          repositories: ${{ vars.REPOSITORY }}
+
+      - name: Verify
+        env:
+          REPOSITORY: ${{ vars.REPOSITORY }}
+          GH_TOKEN: ${{ steps.exercise.outputs.token }}
+        run: |
+          set -x
+          result="$(gh api \
+            --header "Accept: application/vnd.github+json" \
+            --header "X-GitHub-Api-Version: 2022-11-28" \
+            "/repos/${GITHUB_REPOSITORY_OWNER}/${REPOSITORY}/readme" \
+            --jq '.name')"
+          test "${result}" = "README.md"

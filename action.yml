@@ -18,8 +18,11 @@ inputs:
     required: true
     description: GitHub App ID.
   app-private-key:
-    required: true
+    required: false
     description: GitHub App private key.
+  app-private-key-file:
+    required: false
+    description: The file path to the GitHub App's private key.
   repositories:
     required: false
     description: List of repositories to install the GitHub App on.
@@ -38,6 +41,7 @@ runs:
       env:
         APP_ID: ${{ inputs.app-id }}
         APP_PRIVATE_KEY: ${{ inputs.app-private-key }}
+        APP_PRIVATE_KEY_FILE: ${{ inputs.app-private-key-file }}
         REPOSITORIES: ${{inputs.repositories }}
       run: |
         base64url() {
@@ -45,6 +49,9 @@ runs:
         }
 
         sign() {
+          if [[ "${APP_PRIVATE_KEY_FILE}" != "" ]]; then
+            APP_PRIVATE_KEY="$(cat "${APP_PRIVATE_KEY_FILE}")"
+          fi
           openssl dgst -binary -sha256 -sign <(printf '%s' "${APP_PRIVATE_KEY}")
         }
 
