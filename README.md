@@ -1,6 +1,6 @@
-# template-composite-action
+# generate-github-token-action
 
-Template repository for Composite Action.
+Generate an installation access token using GitHub Apps for GitHub Actions.
 
 <!-- actdocs start -->
 
@@ -44,4 +44,4 @@ N/A
 
 See [GitHub Releases][releases].
 
-[releases]: https://github.com/tmknom/template-composite-action/releases
+[releases]: https://github.com/tmknom/generate-github-token-action/releases
