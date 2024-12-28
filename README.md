@@ -24,7 +24,8 @@ Generate an installation access token using GitHub Apps for GitHub Actions.
 | Name | Description | Default | Required |
 | :--- | :---------- | :------ | :------: |
 | app-id | GitHub App ID. | n/a | yes |
-| app-private-key | GitHub App private key. | n/a | yes |
+| app-private-key | GitHub App private key. | n/a | no |
+| app-private-key-file | The file path to the GitHub App's private key. | n/a | no |
 | repositories | List of repositories to install the GitHub App on. | n/a | no |
 
 ## Outputs
