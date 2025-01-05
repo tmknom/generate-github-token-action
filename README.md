@@ -47,7 +47,8 @@ N/A
 
 ## Related projects
 
-N/A
+- [revoke-github-token-action](https://github.com/tmknom/revoke-github-token-action): Revoke an installation access token using GitHub Apps for GitHub Actions.
+- [private-generate-github-token-action](https://github.com/tmknom/private-generate-github-token-action): Generate an installation access token for personal use.
 
 ## Release notes
 
