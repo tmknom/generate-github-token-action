@@ -6,7 +6,9 @@ Generate an installation access token using GitHub Apps for GitHub Actions.
 
 ## Description
 
-Generate an installation access token using GitHub Apps for GitHub Actions.
+This action generates a specified GitHub Apps installation access token.
+The token is used to authenticate requests for repository access.
+You can provide a space-separated list of repositories to grant access.
 
 ## Usage
 
