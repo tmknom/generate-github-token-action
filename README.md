@@ -17,6 +17,7 @@ Generate an installation access token using GitHub Apps for GitHub Actions.
       with:
         app-id: <your-github-app-id>
         app-private-key: <your-github-app-private-key>
+        repositories: foo-repo bar-repo
 ```
 
 ## Inputs
@@ -26,7 +27,7 @@ Generate an installation access token using GitHub Apps for GitHub Actions.
 | app-id | GitHub App ID. | n/a | yes |
 | app-private-key | GitHub App private key. | n/a | no |
 | app-private-key-file | The file path to the GitHub App's private key. | n/a | no |
-| repositories | List of repositories to install the GitHub App on. | n/a | no |
+| repositories | A space-separated list of repositories to install the GitHub App on. | n/a | no |
 
 ## Outputs
 

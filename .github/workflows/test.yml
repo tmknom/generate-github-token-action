@@ -31,7 +31,7 @@ jobs:
         with:
           app-id: ${{ secrets.PR_WRITER_APP_ID }}
           app-private-key: ${{ secrets.PR_WRITER_APP_PRIVATE_KEY }}
-          repositories: ${{ vars.REPOSITORY }}
+          repositories: ${{ vars.REPOSITORY }} homebrew-test-tap
 
       - name: Verify
         env:
@@ -39,12 +39,18 @@ jobs:
           GH_TOKEN: ${{ steps.exercise.outputs.token }}
         run: |
           set -x
-          result="$(gh api \
+          result1="$(gh api \
             --header "Accept: application/vnd.github+json" \
             --header "X-GitHub-Api-Version: 2022-11-28" \
             "/repos/${GITHUB_REPOSITORY_OWNER}/${REPOSITORY}/readme" \
             --jq '.name')"
-          test "${result}" = "README.md"
+
+          result2="$(gh api \
+            --header "Accept: application/vnd.github+json" \
+            --header "X-GitHub-Api-Version: 2022-11-28" \
+            "/repos/${GITHUB_REPOSITORY_OWNER}/homebrew-test-tap/readme" \
+            --jq '.name')"
+          test "${result1}" = "${result2}"
 
   test-key-file:
     name: Test for app-private-key-file
