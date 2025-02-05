@@ -29,9 +29,9 @@ jobs:
         id: exercise
         uses: ./
         with:
-          app-id: ${{ secrets.PR_WRITER_APP_ID }}
-          app-private-key: ${{ secrets.PR_WRITER_APP_PRIVATE_KEY }}
-          repositories: ${{ vars.REPOSITORY }} homebrew-test-tap
+          app-id: ${{ secrets.TESTING_APP_ID }}
+          app-private-key: ${{ secrets.TESTING_APP_PRIVATE_KEY }}
+          repositories: ${{ vars.REPOSITORY }} revoke-github-token-action
 
       - name: Verify
         env:
@@ -48,7 +48,7 @@ jobs:
           result2="$(gh api \
             --header "Accept: application/vnd.github+json" \
             --header "X-GitHub-Api-Version: 2022-11-28" \
-            "/repos/${GITHUB_REPOSITORY_OWNER}/homebrew-test-tap/readme" \
+            "/repos/${GITHUB_REPOSITORY_OWNER}/revoke-github-token-action/readme" \
             --jq '.name')"
           test "${result1}" = "${result2}"
 
@@ -71,7 +71,7 @@ jobs:
       - name: Setup
         id: setup
         env:
-          APP_PRIVATE_KEY: ${{ secrets.PR_WRITER_APP_PRIVATE_KEY }}
+          APP_PRIVATE_KEY: ${{ secrets.TESTING_APP_PRIVATE_KEY }}
         run: |
           set -x
           key_file="${RUNNER_TEMP}/app_private.key"
@@ -82,7 +82,7 @@ jobs:
         id: exercise
         uses: ./
         with:
-          app-id: ${{ secrets.PR_WRITER_APP_ID }}
+          app-id: ${{ secrets.TESTING_APP_ID }}
           app-private-key-file: ${{ steps.setup.outputs.file }}
           repositories: ${{ vars.REPOSITORY }}
 
