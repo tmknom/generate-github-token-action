@@ -48,7 +48,7 @@ jobs:
 
       - name: Teardown
         if: ${{ always() }}
-        uses: tmknom/revoke-github-token-action@3ab58f0a8cc1f0911d071e243343bc0a003d0d1b # v0.1.0
+        uses: tmknom/revoke-github-token-action@aef39d8fd7bfb1baeab3a021fe7a78362a59501f # v0.1.1
         with:
           token: ${{ steps.exercise.outputs.token }}
 
@@ -91,7 +91,7 @@ jobs:
 
       - name: Teardown
         if: ${{ always() }}
-        uses: tmknom/revoke-github-token-action@3ab58f0a8cc1f0911d071e243343bc0a003d0d1b # v0.1.0
+        uses: tmknom/revoke-github-token-action@aef39d8fd7bfb1baeab3a021fe7a78362a59501f # v0.1.1
         with:
           token: ${{ steps.exercise.outputs.token }}
 
@@ -138,6 +138,6 @@ jobs:
 
       - name: Teardown
         if: ${{ always() }}
-        uses: tmknom/revoke-github-token-action@3ab58f0a8cc1f0911d071e243343bc0a003d0d1b # v0.1.0
+        uses: tmknom/revoke-github-token-action@aef39d8fd7bfb1baeab3a021fe7a78362a59501f # v0.1.1
         with:
           token: ${{ steps.exercise.outputs.token }}
