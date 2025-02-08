@@ -1,8 +1,8 @@
 name: Generate GitHub Token
 description: |
-  This action generates a specified GitHub Apps installation access token.
-  The token is used to authenticate requests for repository access.
-  You can provide a space-separated list of repositories to grant access.
+  This action generates an installation access token for a specified GitHub App,
+  enabling authentication in GitHub Actions workflows.
+  You can specify one or more repositories to define its access scope.
 
   ## Usage
 
@@ -19,21 +19,21 @@ description: |
 inputs:
   app-id:
     required: true
-    description: GitHub App ID.
+    description: The ID of the GitHub App.
   app-private-key:
     required: false
-    description: GitHub App private key.
+    description: The private key associated with the GitHub App.
   app-private-key-file:
     required: false
     description: The file path to the GitHub App's private key.
   repositories:
     required: false
-    description: A space-separated list of repositories to install the GitHub App on.
+    description: A space-separated list of repositories that the token grants access to.
 
 outputs:
   token:
     value: ${{ steps.generate.outputs.token }}
-    description: GitHub installation access token
+    description: The installation access token for the specified GitHub App.
 
 runs:
   using: composite
