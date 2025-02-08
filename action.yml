@@ -79,7 +79,7 @@ runs:
           | jq -r '.id'
         )"
 
-        repositories_json="$(jq -cR 'split(" ")' <<<"${repository_names}")"
+        repositories_json="$(jq -cR 'split(" ")' <<<"${repository_names[*]}")"
         token="$(curl --location --silent --request POST \
           --url "${GITHUB_API_URL}/app/installations/${installation_id}/access_tokens" \
           --header "Accept: application/vnd.github+json" \

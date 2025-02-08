@@ -160,8 +160,10 @@ These secrets authenticate the GitHub App.
 
 The following variables are stored in Repository Variables for use in the [test workflow](/.github/workflows/test.yml):
 
-- `TESTING_REPOSITORY`: The private repository accessed by the test workflow.
-- `TESTING_REPOSITORY_FIRST_COMMIT`: The hash of the initial commit in this repository.
+- `TESTING_REPOSITORY`: The private repository for testing.
+- `TESTING_REPOSITORY_INITIAL_COMMIT`: The hash of the initial commit in the testing repository.
+- `TESTING_ADDITIONAL_REPOSITORY`: The additional private repository for testing.
+- `TESTING_ADDITIONAL_REPOSITORY_INITIAL_COMMIT`: The hash of the initial commit in the additional testing repository.
 - `TESTING_APP_PRIVATE_KEY_FINGERPRINT`: The fingerprint of the private key for the GitHub App `Testing for tmknom`.
 
 These values are not sensitive.
