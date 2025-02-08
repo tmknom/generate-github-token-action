@@ -6,9 +6,9 @@ Generate an installation access token using GitHub Apps for GitHub Actions.
 
 ## Description
 
-This action generates a specified GitHub Apps installation access token.
-The token is used to authenticate requests for repository access.
-You can provide a space-separated list of repositories to grant access.
+This action generates an installation access token for a specified GitHub App,
+enabling authentication in GitHub Actions workflows.
+You can specify one or more repositories to define its access scope.
 
 ## Usage
 
@@ -26,16 +26,16 @@ You can provide a space-separated list of repositories to grant access.
 
 | Name | Description | Default | Required |
 | :--- | :---------- | :------ | :------: |
-| app-id | GitHub App ID. | n/a | yes |
-| app-private-key | GitHub App private key. | n/a | no |
+| app-id | The ID of the GitHub App. | n/a | yes |
+| app-private-key | The private key associated with the GitHub App. | n/a | no |
 | app-private-key-file | The file path to the GitHub App's private key. | n/a | no |
-| repositories | A space-separated list of repositories to install the GitHub App on. | n/a | no |
+| repositories | A space-separated list of repositories that the token grants access to. | n/a | no |
 
 ## Outputs
 
 | Name | Description |
 | :--- | :---------- |
-| token | GitHub installation access token |
+| token | The installation access token for the specified GitHub App. |
 
 <!-- actdocs end -->
 
