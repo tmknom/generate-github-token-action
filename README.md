@@ -78,19 +78,9 @@ You need a GitHub App installation access token in the following cases:
 
 ### Can I use this token to access multiple repositories?
 
-Yes. Provide a space-separated list of repositories in the `repositories` input.
+Yes.
+Provide a space-separated list of repositories in the `repositories` input.
 The generated token grants access to all specified repositories.
-
-### Can I generate tokens for multiple GitHub Apps in a single workflow?
-
-Yes.
-Run this action multiple times in the same workflow, each time specifying a different `app-id`.
-
-### Can I use this action with private repositories?
-
-Yes.
-Ensure your GitHub App has the necessary permissions for private repository access.
-When specifying repositories, list them in the `repositories` input.
 
 ### How long is the generated token valid?
 
